@@ -1,12 +1,13 @@
 import React, {useState} from "react";
-import { HashRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Auth from "../routes/Auth";
 import Home from "../routes/Home";
 
-const AppRouter = () => {
+function Router () {
     //Hooks
-    const [isLoggedIn, setIsLoggedIn] = useState(true);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+    //react-router-dom이 6 이하일 경우 
     /*return (
         <Router>
             <Switch>  Switch는 한번에 하나의 Route만 볼 수 있게 한다. 
@@ -30,7 +31,8 @@ const AppRouter = () => {
     
     //react-router-dom 6이상일 경우 
     return (
-        <Router>
+        <>
+        <BrowserRouter>
             <Routes>
                 {isLoggedIn ? (
                     <Route path="/" element={<Home/>}/>
@@ -38,8 +40,9 @@ const AppRouter = () => {
                     <Route path="/" element={<Auth/>}/>
                 )}
             </Routes>
-        </Router>
+        </BrowserRouter>
+        </>
     )
 }
 
-export default AppRouter;
+export default Router;
