@@ -1,6 +1,6 @@
 import { async } from "@firebase/util";
 import React, {useState} from "react";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth"; //최신버전
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth"; //최신버전
 
 const Auth = () => {
     // useState의 email은 변수값, setEmail은 seTter로 input에 입력된 값을 저장한다.
@@ -50,6 +50,20 @@ const Auth = () => {
     //만든 이유 로그인과 회원가입을 왔다 갔다 하는 버튼 역할
     const toggleAccount = () => setNewAccount((prev) => !prev); 
 
+    //콜백함수를 쓰지 않고 간단하게 firebase의 기능을 사용하여 로그인 하는 방법
+    const onSocialClick = (event) => {
+        //console.log(event.target.name);
+        const {target : {name}} = event;
+        let provider;
+        const auth = getAuth();
+        if(name === "google"){
+            provider = new GoogleAuthProvider();
+        }
+
+        const data = signInWithPopup(auth, provider);
+        console.log(data);
+    }
+
     return (<span>
         <form onSubmit={onSubmit}>
             <input type="email" name="email" placeholder="email" required value={email} onChange={onChange}/>
@@ -61,10 +75,11 @@ const Auth = () => {
         </span>
         {error}
         <div>
-            <button>Continue with Google</button>
+            <button name="google" onClick={onSocialClick}>Continue with Google</button>
         </div>
     </span>);
 };
+
 export default Auth;
 //export default () => <span>AUth</span>
 //function component
