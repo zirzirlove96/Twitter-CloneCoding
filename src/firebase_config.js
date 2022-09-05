@@ -1,6 +1,7 @@
 //import * as firebase from 'firebase/app';
 import { initializeApp } from 'firebase/app';
 import { getAuth } from "firebase/auth";
+import { getDatabase } from "firebase/database";
 
 
 //react-app을 만든 사람들이 환경설정의 변수를 REACT_APP 으로 시작하게끔 설정하였기 때문에
