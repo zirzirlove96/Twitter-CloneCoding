@@ -1,7 +1,7 @@
 //import * as firebase from 'firebase/app';
 import { initializeApp } from 'firebase/app';
 import { getAuth } from "firebase/auth";
-import { getDatabase } from "firebase/database";
+import { getFirestore } from "firebase/firestore";
 
 
 //react-app을 만든 사람들이 환경설정의 변수를 REACT_APP 으로 시작하게끔 설정하였기 때문에
@@ -19,3 +19,4 @@ const firebaseConfig = {
 //initializeApp는 firebase 프로젝트를 만들어주고, export를 통해 서비스를 제공해 준다. 순서 중요!
 const firebase = initializeApp(firebaseConfig);
 export const authService = getAuth(firebase);
+export const dbService = getFirestore(firebase);
