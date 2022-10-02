@@ -5,7 +5,7 @@ import Home from "routes/Home";
 import Profile from "routes/Profile";
 import Navigation from "./Navigation";
 
-function Router ({isLoggedIn}) {
+function Router ({isLoggedIn, userObj}) {
     //Hooks
     //const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -39,7 +39,7 @@ function Router ({isLoggedIn}) {
             <Routes>                
                 {isLoggedIn ? (
                     <>
-                    <Route path="/" element={<Home/>}/>                    
+                    <Route path="/" element={<Home userObj={userObj}/>}/>                   
                     <Route path="/profile" element={<Profile/>}/>
                     </>
                 ) : (

@@ -12,6 +12,8 @@ function App() {
   //초기화
   const [init, setInit] = useState(false);
 
+  const [userObj, setUserObj] = useState(null);
+
   //상태의 변화를 알아내기 위해 사용!
   useEffect(()=> {
     const auth = getAuth();
@@ -21,6 +23,7 @@ function App() {
       if(user)
       {
         setIsLoggedIn(true);
+        setUserObj(user);
       }else
       {
         setIsLoggedIn(false);
@@ -31,7 +34,7 @@ function App() {
   
   return (
     <>
-    {init ? <Router isLoggedIn={isLoggedIn}/> : "Initializing..."}
+    {init ? <Router isLoggedIn={isLoggedIn} userObj = {userObj}/> : "Initializing..."}
     <footer>&copy; Nwitter {new Date().getFullYear()}</footer>
     </>
   );
