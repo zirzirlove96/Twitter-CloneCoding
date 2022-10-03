@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {collection, addDoc, getDocs} from "firebase/firestore";
+import {collection, addDoc, getDocs, query, onSnapshot, orderBy} from "firebase/firestore";
 import { dbService } from "firebase_config";
 //import { async } from "@firebase/util";
 import { useEffect } from "react";
@@ -7,9 +7,9 @@ import { useEffect } from "react";
 const Home = ({userObj}) => {
     const [nweet, setNweet] = useState("");
     const [nweets, setNweets] = useState([]);
-    console.log(userObj);
     
-    const getNweets = async () => {
+    // snapshot으로 데이터를 불러온다.
+    /*const getNweets = async () => {
         const getData = await getDocs(collection(dbService, "nweet"));
         //getData.forEach((document) => console.log(document.data()));
         //setter는 함수를 전달할 수 있다.
@@ -17,18 +17,27 @@ const Home = ({userObj}) => {
         getData.forEach((document) => {
             const nweetObject = {
                 ...document.data(), //데이터를 풀어내는 es6문법
-                id : document.id,
- 
+                id : document.id, 
             }
             // *set에 불러온 데이터를 저장하고 nweets를 통해 노출
             setNweets((prev) => [nweetObject, ...prev]);
         });
-    }
+    }*/
     
     //마운트 (처음 화면이 나타날때만 수행)
     //useEffect를 통해 리렌더링을 제어한다. (한번만 함수가 실행)
     useEffect(() => {
-        getNweets();
+        //getNweets();
+        //snapshot을 사용하여 데이터를 모두 가져온다.
+        //장점은 리렌더링을 줄일 수 있고, foreach 대신 map을 사용하여 실시간으로 데이터를 사용할 수 있다 
+        const q = query(collection(dbService, "nweet"));
+        const querySnapshot = onSnapshot(q, (snapshot)=> {
+            const nweetArr = snapshot.docs.map((document)=> ({
+                id: document.id,
+                ...document.data(),
+            }));
+            setNweets(nweetArr);
+        });
     }, []);
 
     const onSubmit = async (event) => {
@@ -54,7 +63,7 @@ const Home = ({userObj}) => {
             <div>
                 {nweets.map((nweet) => (
                     <div key={nweet.id}>
-                        <h4>{nweet.nweet}</h4>
+                        <h4>{nweet.text}</h4>
                     </div>
                 ))}
             </div>
